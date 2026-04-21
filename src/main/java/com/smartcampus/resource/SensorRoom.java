@@ -1,9 +1,13 @@
-package com.smartcampus;
+package com.smartcampus.resource;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.UUID;
+
+import com.smartcampus.DataStore;
+import com.smartcampus.exception.RoomNotEmptyException;
+import com.smartcampus.model.Room;
 
 @Path("/rooms")
 @Produces(MediaType.APPLICATION_JSON)
@@ -54,8 +58,7 @@ public class SensorRoom {
         
         // check if sensors are assigned; if assigned, cannot delete.
         if (room.getSensorIds() != null && !room.getSensorIds().isEmpty()) {
-          // return conflict response if sensors are found
-          return Response.status(Response.Status.CONFLICT).entity("{\"error\":\"Room cannot be deleted: Active sensors are still assigned to this room.\"}").build();
+          throw new RoomNotEmptyException("The room is currently occupied by active hardware.");
         }
         
         DataStore.rooms.remove(roomId);
