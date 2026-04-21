@@ -47,15 +47,15 @@ public class SensorRoom {
     public Response deleteRoom(@PathParam("roomId") String roomId) {
         Room room = DataStore.rooms.get(roomId);
         
-        // 1. Check if the room exists
+        // make sure the room actually exists
         if (room == null) {
           return Response.status(Response.Status.NOT_FOUND).entity("{\"error\":\"Room not found\"}").build();
         }
         
         // check if sensors are assigned; if assigned, cannot delete.
         if (room.getSensorIds() != null && !room.getSensorIds().isEmpty()) {
-          // return conflict response
-          return Response.status(Response.Status.CONFLICT).entity("{\"error\":\"Room cannot be deleted: Active sensors are still assigned.\"}").build();
+          // return conflict response if sensors are found
+          return Response.status(Response.Status.CONFLICT).entity("{\"error\":\"Room cannot be deleted: Active sensors are still assigned to this room.\"}").build();
         }
         
         DataStore.rooms.remove(roomId);

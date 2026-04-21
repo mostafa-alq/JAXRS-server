@@ -25,7 +25,7 @@ public class DiscoveryResource {
         contact.put("email", "w2116049@westminster.ac.uk");
         discoveryData.put("contact", contact);
         
-        // Map of primary resource collections
+        // map of primary resource collections
         Map<String, String> links = new HashMap<>();
         links.put("rooms", "/api/v1/rooms");
         links.put("sensors", "/api/v1/sensors");
