@@ -1,6 +1,6 @@
 # Part 1: Service Architecture & Setup
 
-# Question 1.1: Explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.
+### Question 1.1: Explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.
 
 By default, JAX-RS creates a brand new instance of the class for every single HTTP request. Because the object is deleted after the response is sent, standard instance variables will be reset each time. Therefore, to retain data and maintain the state across several requests, memory structures must be declared as static and act as class-level variables so the data belongs to the class itself and not the instance. Additionally, because multiple clients may send requests simultaneously, these shared static structures must be thread-safe to prevent race conditions when reading and writing simultaneously.
 
