@@ -1,6 +1,6 @@
 # Part 1: Service Architecture & Setup
 
-Question 1.1: Explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.
+# Question 1.1: Explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.
 
 By default, JAX-RS creates a brand new instance of the class for every single HTTP request. Because the object is deleted after the response is sent, standard instance variables will be reset each time. Therefore, to retain data and maintain the state across several requests, memory structures must be declared as static and act as class-level variables so the data belongs to the class itself and not the instance. Additionally, because multiple clients may send requests simultaneously, these shared static structures must be thread-safe to prevent race conditions when reading and writing simultaneously.
 
@@ -29,7 +29,8 @@ The "@Consumes" annotation sets a strict format. If a client ignores this and se
 URL paths are strict and rigid and point towards specific locations of data, whereas query parameters are designed to filter or modify an existing collection. Using query parameters is a lot better as it keeps the URL routing clean and allows clients to easily stack multiple optional filters, whereas putting filters directly on the path creates rigid and messy routing trees.
 
 # Part 4: Deep Nesting with Sub-Resources
-Question 4.1: Discuss the architectural benefits of the Sub-Resource Locator pattern. How does delegating logic to separate classes help manage complexity in large APIs compared to defining every nested path (e.g., sensors/{id}/readings/{rid}) in one massive controller class?
+
+### Question 4.1: Discuss the architectural benefits of the Sub-Resource Locator pattern. How does delegating logic to separate classes help manage complexity in large APIs compared to defining every nested path (e.g., sensors/{id}/readings/{rid}) in one massive controller class?
 
 If I placed every nested route directly into the SensorResource.java class, the file would become very large and difficult to maintain and keep readable. However, the Sub-Resource locator pattern fixes this by giving the responsibility of finding the /readings path to a completely separate class, which is SensorReadingResource.java. This keeps my code organised, makes files much easier to read and test and ensures that my code can be maintainable. This also allows better scalability for the future and keeps the codebase a lot less complex compared to using one massive controller class.
 
