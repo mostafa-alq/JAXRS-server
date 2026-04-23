@@ -19,6 +19,45 @@ To run this application locally, you must have the **Java Development Kit (JDK)*
 3. Execute the following Maven command to clean, compile, and boot the server:
    ```bash
    mvn clean compile exec:java
+   ```
+
+# Sample cURL commands
+
+## View API Metadata (Discovery endpoint)
+
+```bash
+curl -X GET http://localhost:8080/api/v1/
+```
+
+## Create a new room (Library template with capacity of 50)
+
+```bash
+curl -X POST http://localhost:8080/api/v1/rooms -H "Content-Type: application/json" -d "{\"name\": \"Library Quiet Study\", \"capacity\": 50}"
+```
+
+## Register a new sensor to a room (Replace YOUR_ROOM_ID with specific room ID)
+
+```bash
+curl -X POST http://localhost:8080/api/v1/sensors -H "Content-Type: application/json" -d "{\"type\": \"CO2\", \"status\": \"ACTIVE\", \"roomId\": \"YOUR_ROOM_ID\"}"
+```
+
+## Filter sensors by type
+
+```bash
+curl -X GET "http://localhost:8080/api/v1/sensors?type=CO2"
+```
+
+## Post a reading to a sensor (Replace YOUR_SENSOR_ID with specific sensor ID)
+
+```bash
+curl -X POST http://localhost:8080/api/v1/sensors/YOUR_SENSOR_ID/readings -H "Content-Type: application/json" -d "{\"value\": 415.5}"
+```
+
+## Delete a room (Replace YOUR_ROOM_ID with specific room ID)
+
+```bash
+curl -X DELETE http://localhost:8080/api/v1/rooms/YOUR_ROOM_ID
+```
 
 # Conceptual Questions
 
