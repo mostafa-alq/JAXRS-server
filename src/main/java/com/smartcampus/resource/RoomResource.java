@@ -12,7 +12,7 @@ import com.smartcampus.model.Room;
 @Path("/rooms")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class SensorRoom {
+public class RoomResource {
 
     @GET
     public Response getAllRooms() {
@@ -28,8 +28,8 @@ public class SensorRoom {
         
         DataStore.rooms.put(room.getId(), room);
         
-        // if successful, return created response
-        return Response.status(Response.Status.CREATED).entity(room).build();
+        // if successful, return created response with correct headers
+        return Response.status(Response.Status.CREATED).header("Location", "/api/v1/rooms/" + room.getId()).entity(room).build();
     }
 
     @GET
