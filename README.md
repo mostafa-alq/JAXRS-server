@@ -1,3 +1,25 @@
+# Smart Campus API
+
+## 1. API Design Overview
+This project is a RESTful API built in Java using JAX-RS and hosted on a Grizzly HTTP server. It is designed to manage the infrastructure of a campus, specifically handling physical rooms, sensors, and their data readings. 
+
+**Key Architectural Features:**
+* **In-Memory Data Store:** The API uses thread-safe Java Collections (HashMaps and ArrayLists) to manage states without relying on an external database.
+* **Sub-Resource Locators:** Sensor readings are managed using the Sub-Resource Locator pattern, keeping the codebase modular and adhering to the Single Responsibility Principle.
+* **Custom Exception Mapping:** Business logic constraints, such as preventing the deletion of occupied rooms or blocking readings for sensors in maintenance, are handled via custom Java Exceptions and mapped to semantic HTTP status codes.
+* **Global Safety Net:** A generic ExceptionMapper intercepts unexpected runtime errors to prevent the leakage of raw Java stack traces, while a JAX-RS Container Filter automatically logs all incoming requests and outgoing responses to the server console.
+
+## 2. Setup & Build Instructions
+
+To run this application locally, you must have the **Java Development Kit (JDK)** and **Apache Maven** installed on your machine.
+
+**Step-by-step Execution:**
+1. Clone this repository.
+2. Open your terminal and navigate to the root directory of the project.
+3. Execute the following Maven command to clean, compile, and boot the server:
+   ```bash
+   mvn clean compile exec:java
+
 # Part 1: Service Architecture & Setup
 
 ### Question 1.1: Explain the default lifecycle of a JAX-RS Resource class. Is a new instance instantiated for every incoming request, or does the runtime treat it as a singleton? Elaborate on how this architectural decision impacts the way you manage and synchronize your in-memory data structures (maps/lists) to prevent data loss or race conditions.
