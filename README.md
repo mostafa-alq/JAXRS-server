@@ -20,7 +20,7 @@ To run this application locally, you must have the **Java Development Kit (JDK)*
    ```bash
    mvn clean compile exec:java
 
-## Conceptual Questions
+# Conceptual Questions
 
 ## Part 1: Service Architecture & Setup
 
